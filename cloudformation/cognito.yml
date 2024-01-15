@@ -1,0 +1,84 @@
+---
+#====================================================================================================
+# Description : Authentication resources
+#====================================================================================================
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Authentication resources'
+#====================================================================================================
+#                                             Parameters
+#====================================================================================================
+
+Parameters:
+  Prefix:
+    Description: Prefix for resource names (e.g. account name)
+    Type: String
+    Default: "my-account"
+
+  Environment:
+    Description: Environment (used in naming resources)
+    Type: String
+    Default: "sandbox"
+    AllowedValues:
+      - "production"
+      - "development"
+      - "sandbox"
+
+  TagEnvironment:
+    Description: A tag version of Environment
+    Type: String
+    Default: "Sandbox"
+    AllowedValues:
+      - "Production"
+      - "Development"
+      - "Sandbox"
+
+  Workload:
+    Description: Workload that is hosted on this instance 
+    Type: String
+    Default: "authentication"
+    
+Resources:
+  CognitoUserPool:
+    Type: 'AWS::Cognito::UserPool'
+    Properties:
+      UserPoolName: !Sub "${Prefix}-${Environment}-userpool"
+      AdminCreateUserConfig:
+        AllowAdminCreateUserOnly: False
+      Policies:
+        PasswordPolicy:
+            MinimumLength: 12
+            RequireLowercase: True
+            RequireNumbers: True
+            RequireSymbols: True
+            RequireUppercase: True
+            TemporaryPasswordValidityDays: 30
+      UsernameConfiguration:
+        CaseSensitive: false
+      AccountRecoverySetting:
+        RecoveryMechanisms:
+          - Name: verified_email
+            Priority: 1
+      EmailConfiguration:
+        EmailSendingAccount: COGNITO_DEFAULT
+      VerificationMessageTemplate:
+        DefaultEmailOption: CONFIRM_WITH_LINK
+      Schema:
+        - Mutable: true
+          Name: email
+          Required: true
+      AutoVerifiedAttributes:
+        - email
+      AliasAttributes: 
+        - email
+      UserPoolTags:  
+        Environment: !Ref Environment
+        Service: Cognito        
+
+  CognitoUserPoolClient:
+    Type: 'AWS::Cognito::UserPoolClient'
+    Properties:
+      ClientName: !Sub "${Prefix}-${Environment}"
+      UserPoolId: !Ref CognitoUserPool
+      GenerateSecret: false
+      CallbackURLs:
+        - !Ref CallbackURL

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+
+  <title>Login</title>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-3 mt-5">
+        <h1 class="text-center mb-3">Login</h1>
+        <div class="alert alert-dismissible alert-success collapse" id="successMsg">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Well done!</strong> You successfully read <a href="#" class="alert-link">this important alert message</a>.
+        </div>
+        <div class="alert alert-dismissible alert-danger collapse" id="errorMsg">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+          <strong>Oh snap!</strong> <a href="#" class="alert-link">Change a few things up</a> and try submitting again.
+        </div>        
+        <div class="card">
+          <div class="card-body">
+            <form id="registerForm" novalidate onsubmit="return false">
+              <div class="form-group">
+                <label for="emailInputRegister">Username</label>
+                <input type="text" class="form-control" id="emailInputRegister" placeholder="Enter email">
+              </div>
+
+              <div class="form-group">
+                <label for="passwordInputRegister">Password</label>
+                <input type="password" class="form-control" id="passwordInputRegister" placeholder="Enter Password">
+              </div>
+
+              <div class="form-group">
+                <label for="confirmationPassword">Password</label>
+                <input type="password" class="form-control" id="confirmationPassword" placeholder="Confirm Password">
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block">Register</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-+sLIOodYLS7CIrQpBjl+C7nPvqq+FbNUBDunl/OZv93DB7Ln/533i8e/mZXLi/P+" crossorigin="anonymous"></script>
+
+  <script src="js/vendor/aws-cognito-sdk.min.js"></script>
+	<script src="js/vendor/amazon-cognito-identity.min.js"></script>
+	<script src="js/config.js"></script>
+	<!-- <script src="assets/js/cognito-auth.js"></script> -->
+	<script src="js/register.js"></script>
+
+  <script type="text/JavaScript">
+    $('#registerForm').on("submit", function (event) {
+      registerUser();
+      event.preventDefault();
+    })
+  </script>
+
+</body>
+
+</html>
